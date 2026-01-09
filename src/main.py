@@ -1,5 +1,6 @@
 import requests
 import json
+from clean import parse_data
 """
 ætla bara sækja upplýsingatækni rekstratekjur
 https://px.hagstofa.is/pxis/pxweb/is/Atvinnuvegir/Atvinnuvegir__fyrirtaeki__afkoma__1_afkoma/FYR08000.px/table/tableViewLayout2/
@@ -12,7 +13,7 @@ QUERY = {
         {"code": "Atvinnugrein", "selection": {"filter": "item", "values": ["48"]}},
         # Hversu mörg fyrirtæki, Velta, Production, Hagnaður, Starfsmenn
         {"code": "Breyta", "selection": {"filter": "item", "values": ["1", "2", "3", "5", "11"]}},
-        {"code": "Ár", "selection": {"filter": "item", "values": ["2024"]}}
+        {"code": "Ár", "selection": {"filter": "item", "values": ["2023","2024"]}}
     ],
     "response": {"format": "json"}
 }
@@ -33,16 +34,15 @@ def extract_data():
 
 
 def main():    
-    data = extract_data()
-    
-    if data:
-        # fyrstu lykla
-        #print(list(data.keys()))
-        #allt json 
-        print(json.dumps(data, indent=2, ensure_ascii=False))
+    #taka json fra api
+    raw_data = extract_data()
+    #tekka a data og key
+    if raw_data is not None and 'data' in raw_data:
+        #clean
+        df = parse_data(raw_data)
+        print(df[['Breyta_text', 'value']].to_string(index=False))
     else:
         print("error að sækja gögn")
-
 
 if __name__ == "__main__":
     main()
