@@ -1,5 +1,11 @@
 import pandas as pd
 
+labels = {
+    "1": "Fjöldi fyrirtækja", "2": "Rekstrartekjur (mkr)",
+    "3": "Framleiðsluverðmæti", "5": "Vergur rekstarafgangur",
+    "11": "Fjöldi starfsmanna"
+}
+
 def parse_data(data):
     rows = []
     for item in data['data']:
@@ -14,12 +20,6 @@ def parse_data(data):
     #print(df)
     df['value'] = pd.to_numeric(df['value'])
     df['Ár'] = pd.to_numeric(df['Ár'])
-    
-    # Icelandic labels from your attachment
-    labels = {
-        "1": "Fjöldi fyrirtækja", "2": "Rekstrartekjur (mkr)", 
-        "3": "Framleiðsluverðmæti", "5": "Vergur rekstrarafgangur", 
-        "11": "Fjöldi starfsmanna"
-    }
+
     df['Breyta_text'] = df['Breyta'].map(labels)
     return df
