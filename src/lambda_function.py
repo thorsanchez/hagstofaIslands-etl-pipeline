@@ -73,7 +73,6 @@ def lambda_handler(event, context):
     try:
         df_pivot['Rekstrartekjur (mkr)'].plot(title='Rekstrartekjur í upplýsingageiranum')
         plt.tight_layout()
-        plt.savefig("test_plot.png")
 
         #búa til png í memory
         img_buffer = BytesIO()
