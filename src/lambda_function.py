@@ -1,6 +1,7 @@
 import matplotlib
 matplotlib.use('Agg')
 import requests
+import matplotlib.pyplot as plt
 
 from clean import parse_data, labels
 
@@ -33,6 +34,16 @@ def lambda_handler(event, context):
     df_pivot = df.pivot(index='Ár', columns='Breyta_text', values='value')
 
     print(df_pivot.tail())
+
+    #test
+    try:
+        df_pivot['Rekstrartekjur (mkr)'].plot(title='Rekstrartekjur í upplýsingageiranum')
+        plt.tight_layout()
+        plt.savefig("test_plot.png")
+        print("Vistað")
+        plt.close()
+    except Exception as e:
+        print("plt error:", str(e))
 
     return {
         'statuscode': 200,
